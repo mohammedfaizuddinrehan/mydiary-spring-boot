@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | MyDiary</title>
+
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 25px;
+            font-family: Arial, sans-serif;
+            background:
+                    radial-gradient(circle at top left, #31205c 0, transparent 40%),
+                    radial-gradient(circle at bottom right, #252052 0, transparent 40%),
+                    #0c0d16;
+            color: #f5f5f7;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 430px;
+            padding: 40px;
+            background: rgba(25, 26, 42, 0.92);
+            border: 1px solid #35334e;
+            border-radius: 20px;
+            box-shadow: 0 20px 70px rgba(0, 0, 0, 0.35);
+        }
+
+        .logo {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #a78bfa, #7c3aed);
+            font-size: 25px;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+            font-size: 29px;
+            letter-spacing: -0.7px;
+        }
+
+        .subtitle {
+            margin-bottom: 30px;
+            color: #a5a5bb;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .notice {
+            margin-bottom: 18px;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 13px;
+        }
+
+        .error {
+            border: 1px solid #7f1d1d;
+            background: #351b25;
+            color: #fca5a5;
+        }
+
+        .success {
+            border: 1px solid #166534;
+            background: #142d25;
+            color: #86efac;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 9px;
+            color: #deddeb;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #38384e;
+            border-radius: 10px;
+            outline: none;
+            background: #131420;
+            color: white;
+            font-size: 14px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input:focus {
+            border-color: #a78bfa;
+            box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.12);
+        }
+
+        input::placeholder {
+            color: #77788d;
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper input {
+            padding-right: 75px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            top: 50%;
+            right: 12px;
+            transform: translateY(-50%);
+            border: none;
+            background: transparent;
+            color: #b9a5ff;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .login-button {
+            width: 100%;
+            margin-top: 5px;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #a78bfa, #7c3aed);
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(124, 58, 237, 0.3);
+        }
+
+        .register-link {
+            margin-top: 25px;
+            color: #a5a5bb;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        .register-link a {
+            color: #b9a5ff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            margin-top: 25px;
+            color: #696a80;
+            text-align: center;
+            font-size: 11px;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 28px 22px;
+            }
+
+            h1 {
+                font-size: 25px;
+            }
+        }
+    </style>
+    ```
+
+</head>
+
+<body>
+
+<div class="container">
+
+    ```
+    <div class="logo">✦</div>
+
+    <h1>Welcome back</h1>
+
+    <p class="subtitle">
+        Sign in to return to your personal space.
+    </p>
+
+    <p class="notice error" th:if="${param.error}">
+        Invalid email or password. Please try again.
+    </p>
+
+    <p class="notice success" th:if="${param.logout}">
+        You have been logged out successfully.
+    </p>
+
+    <form th:action="@{/login}" method="post">
+
+        <input type="hidden"
+               th:name="${_csrf.parameterName}"
+               th:value="${_csrf.token}">
+
+        <div class="form-group">
+            <label for="username">Email address</label>
+
+            <input type="email"
+                   id="username"
+                   name="username"
+                   placeholder="you@example.com"
+                   autocomplete="username"
+                   required>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+
+            <div class="password-wrapper">
+                <input type="password"
+                       id="password"
+                       name="password"
+                       placeholder="Enter your password"
+                       autocomplete="current-password"
+                       required>
+
+                <button type="button"
+                        class="toggle-password"
+                        onclick="togglePassword()">
+                    Show
+                </button>
+            </div>
+        </div>
+
+        <button type="submit" class="login-button">
+            Sign In &rarr;
+        </button>
+
+    </form>
+
+    <p class="register-link">
+        Don't have an account?
+        <a href="/register">Create an account</a>
+    </p>
+
+    <p class="footer">MYDIARY &bull; YOUR SPACE, YOUR STORY</p>
+    ```
+
+</div>
+
+<script>
+    function togglePassword() {
+        const password = document.getElementById("password");
+        const button = document.querySelector(".toggle-password");
+
+        if (password.type === "password") {
+            password.type = "text";
+            button.textContent = "Hide";
+        } else {
+            password.type = "password";
+            button.textContent = "Show";
+        }
+    }
+</script>
+
+</body>
+</html>

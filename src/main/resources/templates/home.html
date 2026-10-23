@@ -1,0 +1,236 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MySpace | Home</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #10121b;
+            color: #f5f5f5;
+            min-height: 100vh;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 22px 8%;
+            border-bottom: 1px solid #292c3b;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #a78bfa;
+        }
+
+        .logout-button {
+            padding: 10px 18px;
+            border: 1px solid #393d52;
+            border-radius: 8px;
+            background: transparent;
+            color: white;
+            cursor: pointer;
+        }
+
+        .logout-button:hover {
+            background: #292c3b;
+        }
+
+        .hero {
+            max-width: 1100px;
+            margin: auto;
+            padding: 80px 25px 60px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(32px, 5vw, 52px);
+            line-height: 1.25;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            color: #a78bfa;
+        }
+
+        .hero p {
+            max-width: 650px;
+            margin: auto;
+            color: #a4a7b8;
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        .actions {
+            margin-top: 32px;
+        }
+
+        .primary-button {
+            display: inline-block;
+            padding: 15px 26px;
+            border-radius: 9px;
+            background: #8b5cf6;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .primary-button:hover {
+            background: #7c3aed;
+            transform: translateY(-2px);
+        }
+
+        .features {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 25px 65px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+
+        .feature-card {
+            display: block;
+            padding: 28px;
+            background: #1a1d2b;
+            border: 1px solid #303347;
+            border-radius: 15px;
+            text-decoration: none;
+            color: inherit;
+            transition: 0.2s;
+        }
+
+        .feature-card:hover {
+            border-color: #8b5cf6;
+            transform: translateY(-4px);
+        }
+
+        .feature-icon {
+            font-size: 30px;
+            margin-bottom: 18px;
+        }
+
+        .feature-card h3 {
+            color: #c4b5fd;
+            font-size: 19px;
+            margin-bottom: 12px;
+        }
+
+        .feature-card p {
+            color: #a4a7b8;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px 15px;
+            border-top: 1px solid #292c3b;
+            color: #777d91;
+            font-size: 13px;
+        }
+
+        @media (max-width: 750px) {
+            header {
+                padding: 20px 5%;
+            }
+
+            .hero {
+                padding-top: 55px;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">MySpace.</div>
+
+    <form th:action="@{/logout}" method="post">
+        <input type="hidden"
+               th:name="${_csrf.parameterName}"
+               th:value="${_csrf.token}">
+
+        <button type="submit" class="logout-button">Logout</button>
+    </form>
+</header>
+
+<main>
+
+    <section class="hero">
+        <h1>
+            Welcome back.<br>
+            Make today <span>meaningful.</span>
+        </h1>
+
+        <p>
+            Your own little corner of the world.
+            Write down your thoughts, keep your memories,
+            and make time for yourself.
+        </p>
+
+        <div class="actions">
+            <a href="/write-diary" class="primary-button">
+                Write My Diary &rarr;
+            </a>
+        </div>
+    </section>
+
+    <section class="features">
+
+        <!-- Opens the page containing saved diary entries -->
+        <a href="/diary" class="feature-card">
+            <div class="feature-icon">✍️</div>
+            <h3>Your Personal Diary</h3>
+            <p>
+                Write freely, record your day, and keep your
+                memories organised in one place.
+            </p>
+        </a>
+
+        <div class="feature-card">
+            <div class="feature-icon">🔒</div>
+            <h3>Your Private Space</h3>
+            <p>
+                Your diary entries are associated with your
+                account and protected by the backend.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">🌙</div>
+            <h3>A Moment for Yourself</h3>
+            <p>
+                Slow down, reflect on your experiences,
+                and make time for your thoughts.
+            </p>
+        </div>
+
+    </section>
+
+</main>
+
+<footer>
+    MySpace · A little space to be yourself.
+</footer>
+
+</body>
+</html>

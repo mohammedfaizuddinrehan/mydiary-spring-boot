@@ -1,0 +1,199 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Your Personal Diary</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #10121b;
+            color: #f5f5f5;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 22px 8%;
+            border-bottom: 1px solid #292c3b;
+        }
+
+        header h2 {
+            margin: 0;
+            color: #a78bfa;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 45px auto;
+            padding: 0 20px;
+        }
+
+        .welcome {
+            margin-bottom: 30px;
+        }
+
+        .welcome h1 {
+            margin-bottom: 8px;
+        }
+
+        .welcome p {
+            color: #a4a7b8;
+            line-height: 1.7;
+        }
+
+        .card {
+            background: #1a1d2b;
+            border: 1px solid #303347;
+            border-radius: 14px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .entry-title {
+            color: #c4b5fd;
+            margin-top: 0;
+        }
+
+        .entry-content {
+            color: #d1d5db;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+            line-height: 1.8;
+        }
+
+        .date {
+            color: #9297aa;
+            font-size: 13px;
+        }
+
+        .empty {
+            color: #a4a7b8;
+            text-align: center;
+            padding: 35px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 11px 18px;
+            border: none;
+            border-radius: 8px;
+            background: #8b5cf6;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .button:hover {
+            background: #7c3aed;
+        }
+
+        .entry-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .edit-button {
+            background: #374151;
+        }
+
+        .delete-button {
+            background: #991b1b;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 18px 5%;
+            }
+
+            .container {
+                margin-top: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h2>MyDiary</h2>
+    <a href="/home" class="button">Home</a>
+</header>
+
+<main class="container">
+
+    <section class="welcome">
+        <h1>Your Personal Diary 📚</h1>
+        <p>Your saved thoughts and memories, all in one place.</p>
+    </section>
+
+    <!-- Show this message when there are no saved entries -->
+    <div th:if="${#lists.isEmpty(entries)}" class="card empty">
+        <h3>Your diary is empty.</h3>
+        <p>Write your first entry and it will appear here.</p>
+
+        <a href="/write-diary" class="button">
+            Write My Diary &rarr;
+        </a>
+    </div>
+
+    <!-- Display each saved diary entry -->
+    <article class="card" th:each="entry : ${entries}">
+
+        <h2 class="entry-title" th:text="${entry.title}">
+            Entry title
+        </h2>
+
+        <p class="date"
+           th:text="${entry.createdAt != null ? #temporals.format(entry.createdAt, 'dd MMM yyyy, hh:mm a') : 'Just now'}">
+            Entry date
+        </p>
+
+        <p class="entry-content" th:text="${entry.content}">
+            Entry content
+        </p>
+
+        <div class="entry-actions">
+
+            <a th:href="@{/diary/edit/{id}(id=${entry.id})}"
+               class="button edit-button">
+                Edit
+            </a>
+
+            <form th:action="@{/diary/delete/{id}(id=${entry.id})}"
+                  method="post"
+                  style="margin: 0;">
+
+                <input type="hidden"
+                       th:name="${_csrf.parameterName}"
+                       th:value="${_csrf.token}">
+
+                <button type="submit"
+                        class="button delete-button"
+                        onclick="return confirm('Are you sure you want to delete this entry?')">
+                    Delete
+                </button>
+
+            </form>
+
+        </div>
+
+    </article>
+
+</main>
+
+</body>
+</html>
